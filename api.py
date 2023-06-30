@@ -6,17 +6,14 @@ import uvicorn
 import syslog
 import sys
 
-# uvicorn api:app --reload
-# AGGREGATION_STRATEGY="none" uvicorn api:app --reload
-
+# Syslog library for Python is used for logging: 
 # https://docs.python.org/3/library/syslog.html
 syslog.openlog(ident="NER-API", logoption=syslog.LOG_PID, facility=syslog.LOG_LOCAL0)
 
 # Defines whether and how entity tags and corresponding tokens are aggreagated by the pipeline
-# options: 'none', 'simple', 'first', 'average', 'max'
+# options: 'none', 'simple', 'first', 'average', 'max' and 'custom'
 # For more information, see 
 # https://huggingface.co/transformers/v4.7.0/_modules/transformers/pipelines/token_classification.html
-
 class Settings(BaseSettings):
     aggregation_strategy: str = 'simple'
 
@@ -35,19 +32,24 @@ async def load_model():
     """
     Load the pretrained model on startup.
     """
+    # For aggregation strategy 'custom', model output is given in raw format
+    aggregation = settings.aggregation_strategy if settings.aggregation_strategy != 'custom' else 'none'
     try:
         # Load tokenizer, model and the trained weights from HuggingFace Hub
         # By default, the files are saved to ~/.cache/huggingface/hub/
         model = pipeline(
                 "token-classification", 
                 model="Kansallisarkisto/finbert-ner", 
-                aggregation_strategy=settings.aggregation_strategy, 
+                aggregation_strategy=aggregation, 
+                framework='pt', # PyTorch is used as the model framework
+                device=-1 # By default CPU is used (-1), but also GPU id (>=0) can be given
             )
         # Add model to app state
         app.package = {"model": model}
     except Exception as e:
         syslog.syslog(syslog.LOG_ERR, 'Failed to load the model files: {}'.format(e))
         raise HTTPException(status_code=500, detail=f"Failed to load the model files: {e}")
+
 
 def transform_score(predictions_list):
     """Transforms the 'score' value to a format acceptable to FastAPI."""
@@ -58,7 +60,7 @@ def transform_score(predictions_list):
 
 
 def filter_tags_scores(predictions_list):
-    """Loops over the predictions and combines tokenized word pieces."""
+    """Loops over the predictions and combines tokenized word pieces while preserving the I- and B-tags."""
     predictions = []
     n = len(predictions_list)
     token, tag, score, start, end, count = '', '', 0, 0, 0, 0
@@ -95,9 +97,8 @@ def predict(text):
     # Get model from app state
     model = app.package["model"]
     predictions_list = model(text)
-    print(predictions_list)
-    # If separate B- and I-tags are included in the output, aggregation is performed using own function
-    if settings.aggregation_strategy == 'none':
+    # If separate B- and I-tags are included in the output, aggregation is performed using a custom function
+    if settings.aggregation_strategy == 'custom':
         predictions = filter_tags_scores(predictions_list)
     # For merged B- and I-tags, the pipeline is used for aggregation
     else:
