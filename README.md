@@ -61,7 +61,7 @@ This is a list of dictionaries, where each dictionary containsthe following keys
 
 #### Aggregation strategy: 'simple'
 
-This is the default strategy used in the API. It groups together the B- and I-parts of the same entities into a single entity. Now the output of the example sentence becomes:
+This is the default strategy used in the API. It groups together the B- and I-parts of the same entities into a single entity. Now the output for the example sentence becomes:
 
 `[{'entity_group': 'GPE', 'score': 0.9999044, 'word': 'Helsingistä', 'start': 0, 'end': 11}, {'entity_group': 'GPE', 'score': 0.995911, 'word': 'Suomen suuriruhtinaskunnan', 'start': 17, 'end': 43}, {'entity_group': 'DATE', 'score': 0.9998959, 'word': 'vuonna 1812', 'start': 56, 'end': 67}]`
 
@@ -69,6 +69,9 @@ Now for example the word 'suuriruhtinaskunnan' is one token belonging to entity 
 
 #### Aggregation strategy: 'custom'
 
+This aggregation option is custom built, and is not part of the transformers-library. The goal is to group together wordpieces 
+belonging to a single B- or I-tag, so that the aggregation preserves the IOB2-style annotation format. The output for the example sentence is:
+ 
 `[{"entity_group":"B-GPE","score":0.9999043941497803,"word":"Helsingistä","start":0,"end":11},{"entity_group":"B-GPE","score":0.9991747736930847,"word":"Suomen","start":17,"end":23},{"entity_group":"I-GPE","score":0.9953669706980387,"word":"suuriruhtinaskunnan","start":24,"end":43},{"entity_group":"B-DATE","score":0.9999510049819946,"word":"vuonna","start":56,"end":62},{"entity_group":"I-DATE","score":0.9998683929443359,"word":"1812","start":63,"end":67}]`
 
 ### Running the API in a virtual environment
