@@ -61,6 +61,9 @@ This is a list of dictionaries, where each dictionary containsthe following keys
 
 #### Aggregation strategy: 'simple'
 
+This is the default strategy used in the API. It groups together the B- and I-parts of the same entities into a single entity. Now the output of the example sentence becomes:
+
+`[{'entity_group': 'GPE', 'score': 0.9999044, 'word': 'Helsingistä', 'start': 0, 'end': 11}, {'entity_group': 'GPE', 'score': 0.995911, 'word': 'Suomen suuriruhtinaskunnan', 'start': 17, 'end': 43}, {'entity_group': 'DATE', 'score': 0.9998959, 'word': 'vuonna 1812', 'start': 56, 'end': 67}]`
 
 
 ### Running the API in a virtual environment
