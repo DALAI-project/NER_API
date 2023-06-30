@@ -67,6 +67,10 @@ This is the default strategy used in the API. It groups together the B- and I-pa
 
 Now for example the word 'suuriruhtinaskunnan' is one token belonging to entity group 'GPE'. Token/wordpiece index is omitted from the results. More information on the 'simple' strategy and its variations ('first', 'average', 'max') can be found [here](https://huggingface.co/transformers/v4.7.0/_modules/transformers/pipelines/token_classification.html).
 
+#### Aggregation strategy: 'custom'
+
+`[{"entity_group":"B-GPE","score":0.9999043941497803,"word":"Helsingistä","start":0,"end":11},{"entity_group":"B-GPE","score":0.9991747736930847,"word":"Suomen","start":17,"end":23},{"entity_group":"I-GPE","score":0.9953669706980387,"word":"suuriruhtinaskunnan","start":24,"end":43},{"entity_group":"B-DATE","score":0.9999510049819946,"word":"vuonna","start":56,"end":62},{"entity_group":"I-DATE","score":0.9998683929443359,"word":"1812","start":63,"end":67}]`
+
 ### Running the API in a virtual environment
 
 These instructions use a conda virtual environment, and as a precondition you should have Miniconda or Anaconda installed on your operating system. 
