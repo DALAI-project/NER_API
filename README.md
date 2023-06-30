@@ -32,6 +32,14 @@ when the code is run. By default, the files are saved to `~/.cache/huggingface/h
 This path can be modified by exporting the environment variable `TRANSFORMERS_CACHE`. 
 For example in bash shell type `export TRANSFORMERS_CACHE=/path/to/cache` before running the code.
 
+### Output format
+
+The model makes predictions for named entities in the IOB2-format, where the B-prefix is used for the first token of 
+an entity, and I-prefix for all subsequent tokens belonging to the same entity. 
+
+By default, model 
+
+
 ### Running the API in a virtual environment
 
 These instructions use a conda virtual environment, and as a precondition you should have Miniconda or Anaconda installed on your operating system. 
@@ -88,11 +96,18 @@ The port mapping of the container can be viewed with the command `sudo docker po
 
 The API has one endpoint, `/ner`,  which expects the input text to be included in the client's POST request.
 
+### Input format
+
+The input text is expected to be in a json format, where the key 'text' is used for defining the content:
+
+`'{"text": "Example text in Finnish."}'`
+
+
 ### Testing the API in a virtual environment
 
 You can test the API for example using curl:
 
-`curl http://127.0.0.1:8000/ner -F file=@/path/img.jpg`
+`curl -d '{"text": "Helsingistä tuli Suomen suuriruhtinaskunnan pääkaupunki vuonna 1812."}' -H "Content-Type: application/json" -X POST http://127.0.0.1:8000/ner`
 
 The host and port should be the same ones that were defined when starting the API.
 
