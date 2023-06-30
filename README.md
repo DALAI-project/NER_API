@@ -126,6 +126,10 @@ Here the new image is named ner_image. After successfully creating the image, yo
 In the Dockerfile, port 8000 is exposed, meaning that the container listens to that port. In the above command, the corresponding host port can be chosen as the first element in `-p <host-port>:<container-port>`. If only the container port is specified, Docker will automatically select a free port as the host port. 
 The port mapping of the container can be viewed with the command `sudo docker port postit_container`
 
+If you want to change the default aggregation strategy ('simple') when creating the container, this can be done by using the -e flag:
+
+`sudo docker run -d --name ner_container -p 8000:8000 -e AGGREGATION_STRATEGY="custom" ner_image`
+
 ## Testing the API
 
 The API has one endpoint, `/ner`,  which expects the input text to be included in the client's POST request.
@@ -135,7 +139,6 @@ The API has one endpoint, `/ner`,  which expects the input text to be included i
 The input text is expected to be in a json format, where the key 'text' is used for defining the content:
 
 `'{"text": "Example text in Finnish."}'`
-
 
 ### Testing the API in a virtual environment
 
@@ -147,16 +150,7 @@ The host and port should be the same ones that were defined when starting the AP
 
 ### Testing the API using Docker
 
-In the Docker version of the API, it is easiest to use the `/postit` endpoint of the API. This can be tested 
-for example using curl:
+The Docker version of the API can bes tested (when the container is running) for example with curl using the same arguments as above. 
 
-`curl http://127.0.0.1:8000/postit -F file=@/path/img.jpg`
-
-### Output of the API
-
-The output is in a .json form and consists of the predicted class label and the confidence for the prediction.
-So for instance the output could be 
-
-`{"prediction":"post-it","confidence":0.995205283164978}`
 
 
