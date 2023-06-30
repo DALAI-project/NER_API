@@ -48,7 +48,9 @@ This is a list of dictionaries, where each dictionary containsthe following keys
 - `score`: Confidence score that the model gives to the prediction.
 - `index`: Index of the token in the tokenized text input.
 - `word`: Token / wordpiece for which the prediction is made. In the above example, for instance the word 'suuriruhtinaskunnan' is split into six wordpieces,
-  where the 
+  where the pieces following the first one begin with '##'.
+- `start`: Index of the start of the token/wordpiece.
+- `end`: Index of the end of the token/wordpiece.
 
 
 ### Running the API in a virtual environment
