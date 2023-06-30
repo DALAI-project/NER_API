@@ -37,6 +37,12 @@ For example in bash shell type `export TRANSFORMERS_CACHE=/path/to/cache` before
 The model makes predictions for named entities in the IOB2-format, where the B-prefix is used for the first token of 
 an entity, and I-prefix for all subsequent tokens belonging to the same entity. 
 
+Different aggregation strategies can be used for changing the model output format. These can be changed with the parameter 
+`AGGREGATION_STRATEGY` when starting the API. For example
+
+`AGGREGATION_STRATEGY="simple" uvicorn api:app`
+
+
 By default, model output follows the input format, which is based on [wordpiece tokenization](https://huggingface.co/learn/nlp-course/chapter6/6?fw=pt). Therefore, for example the input
 sentence 'Helsingistä tuli Suomen suuriruhtinaskunnan pääkaupunki vuonna 1812.' produces the output
 
