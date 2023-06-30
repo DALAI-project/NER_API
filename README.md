@@ -42,9 +42,10 @@ Different aggregation strategies can be used for changing the model output forma
 
 `AGGREGATION_STRATEGY="simple" uvicorn api:app`
 
+#### Aggregation strategy: 'none'
 
 By default, model output follows the input format, which is based on [wordpiece tokenization](https://huggingface.co/learn/nlp-course/chapter6/6?fw=pt). Therefore, for example the input
-sentence 'Helsingistä tuli Suomen suuriruhtinaskunnan pääkaupunki vuonna 1812.' produces the output
+sentence 'Helsingistä tuli Suomen suuriruhtinaskunnan pääkaupunki vuonna 1812.', when the aggregation strategy 'none is used, produces the output
 
 `[{'entity': 'B-GPE', 'score': 0.9999044, 'index': 1, 'word': 'Helsingistä', 'start': 0, 'end': 11}, {'entity': 'B-GPE', 'score': 0.9991748, 'index': 3, 'word': 'Suomen', 'start': 17, 'end': 23}, {'entity': 'I-GPE', 'score': 0.9968881, 'index': 4, 'word': 'suuri', 'start': 24, 'end': 29}, {'entity': 'I-GPE', 'score': 0.9972023, 'index': 5, 'word': '##ru', 'start': 29, 'end': 31}, {'entity': 'I-GPE', 'score': 0.99688524, 'index': 6, 'word': '##htina', 'start': 31, 'end': 36}, {'entity': 'I-GPE', 'score': 0.99559337, 'index': 7, 'word': '##sku', 'start': 36, 'end': 39}, {'entity': 'I-GPE', 'score': 0.99525815, 'index': 8, 'word': '##nna', 'start': 39, 'end': 42}, {'entity': 'I-GPE', 'score': 0.99037445, 'index': 9, 'word': '##n', 'start': 42, 'end': 43}, {'entity': 'B-DATE', 'score': 0.999951, 'index': 11, 'word': 'vuonna', 'start': 56, 'end': 62}, {'entity': 'I-DATE', 'score': 0.9998229, 'index': 12, 'word': '18', 'start': 63, 'end': 65}, {'entity': 'I-DATE', 'score': 0.9999138, 'index': 13, 'word': '##12', 'start': 65, 'end': 67}]`
 
@@ -57,6 +58,9 @@ This is a list of dictionaries, where each dictionary containsthe following keys
   where the pieces following the first one begin with '##'.
 - `start`: Index of the start of the token/wordpiece.
 - `end`: Index of the end of the token/wordpiece.
+
+#### Aggregation strategy: 'simple'
+
 
 
 ### Running the API in a virtual environment
