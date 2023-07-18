@@ -130,6 +130,10 @@ If you want to change the default aggregation strategy ('simple') when creating 
 
 `sudo docker run -d --name ner_container -p 8000:8000 -e AGGREGATION_STRATEGY="custom" ner_image`
 
+## Logging
+
+Logging events are saved into a file `api_log.log` in the same folder where the `api.py` file is located. Previous content of the log file is overwritten after each restart. More information on different logging options is available [here](https://docs.python.org/3/library/logging.html).
+
 ## Testing the API
 
 The API has one endpoint, `/ner`,  which expects the input text to be included in the client's POST request.
