@@ -61,11 +61,11 @@ This is a list of dictionaries, where each dictionary containsthe following keys
 
 #### Aggregation strategy: 'simple'
 
-This is the default strategy used in the API. It groups together the B- and I-parts of the same entities into a single entity. Now the output for the example sentence becomes:
+This aggregation strategy groups together the B- and I-parts of the same entities into a single entity. Now the output for the example sentence becomes:
 
 `[{'entity_group': 'GPE', 'score': 0.9999044, 'word': 'Helsingistä', 'start': 0, 'end': 11}, {'entity_group': 'GPE', 'score': 0.995911, 'word': 'Suomen suuriruhtinaskunnan', 'start': 17, 'end': 43}, {'entity_group': 'DATE', 'score': 0.9998959, 'word': 'vuonna 1812', 'start': 56, 'end': 67}]`
 
-Now for example the word 'suuriruhtinaskunnan' is one token belonging to entity group 'GPE'. Token/wordpiece index is omitted from the results. More information on the 'simple' strategy and its variations ('first', 'average', 'max') can be found [here](https://huggingface.co/transformers/v4.7.0/_modules/transformers/pipelines/token_classification.html).
+Now for example the word 'suuriruhtinaskunnan' is one token belonging to entity group 'GPE'. Token/wordpiece index is omitted from the results. More information on the 'simple' strategy and its variations ('first', 'average', 'max') can be found [here](https://huggingface.co/transformers/v4.7.0/_modules/transformers/pipelines/token_classification.html). 'first' is the default strategy used in the API. 
 
 #### Aggregation strategy: 'custom'
 
