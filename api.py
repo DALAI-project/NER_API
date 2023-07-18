@@ -3,19 +3,19 @@ from pydantic import BaseSettings
 from transformers import pipeline 
 import numpy as np
 import uvicorn
-import syslog
+import logging
 import sys
 
-# Syslog library for Python is used for logging: 
-# https://docs.python.org/3/library/syslog.html
-syslog.openlog(ident="NER-API", logoption=syslog.LOG_PID, facility=syslog.LOG_LOCAL0)
+# For logging options see
+# https://docs.python.org/3/library/logging.html
+logging.basicConfig(filename='api_log.log', filemode='w', format='%(asctime)s %(message)s', datefmt='%d/%m/%Y %H:%M:%S', level=logging.INFO)
 
 # Defines whether and how entity tags and corresponding tokens are aggreagated by the pipeline
 # options: 'none', 'simple', 'first', 'average', 'max' and 'custom'
 # For more information, see 
 # https://huggingface.co/transformers/v4.7.0/_modules/transformers/pipelines/token_classification.html
 class Settings(BaseSettings):
-    aggregation_strategy: str = 'simple'
+    aggregation_strategy: str = 'first'
 
 settings = Settings()
 
@@ -23,7 +23,7 @@ try:
     # Initialize API Server
     app = FastAPI()
 except Exception as e:
-    syslog.syslog(syslog.LOG_ERR, 'Failed to start the API server: {}'.format(e))
+    logging.error('Failed to start the API server: %s' % e)
     sys.exit(1)
 
 # Function is run (only) before the application starts
@@ -47,8 +47,8 @@ async def load_model():
         # Add model to app state
         app.package = {"model": model}
     except Exception as e:
-        syslog.syslog(syslog.LOG_ERR, 'Failed to load the model files: {}'.format(e))
-        raise HTTPException(status_code=500, detail=f"Failed to load the model files: {e}")
+        logging.error('Failed to load the model files: %s' % e)
+        raise HTTPException(status_code=500, detail='Failed to load the model files: %s' % e)
 
 
 def transform_score(predictions_list):
@@ -114,11 +114,11 @@ async def postit(text: str = Body(..., embed=True)):
     try: 
         predictions = predict(text)
     except Exception as e:
-        syslog.syslog(syslog.LOG_ERR, 'Failed to analyze the input text: {}'.format(e))
-        raise HTTPException(status_code=500, detail=f"Failed to analyze the input text: {e}")
+        logging.error('Failed to analyze the input text: %s' % e)
+        raise HTTPException(status_code=500, detail='Failed to analyze the input text: %s' % s)
 
     return predictions
 
 
 if __name__ == '__main__':
-    uvicorn.run(app, host='0.0.0.0', port=8000, log_level="info")
+    uvicorn.run(app, host='0.0.0.0', port=8000)
