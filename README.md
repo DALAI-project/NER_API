@@ -1,5 +1,8 @@
 # Named Entity Recognition (NER) API
 
+<img src="https://github.com/DALAI-hanke/NER_API/assets/33789802/315a9e94-3eb1-4b77-be66-5cec321a45f6.jpg"  width="60%" height="60%">
+
+
 API for performing named entity recognition from text input in Finnish. 
 The model was trained by fine-tuning a [Finnish BERT language model](https://huggingface.co/TurkuNLP/bert-base-finnish-cased-v1)
 to recognize 10 named entity categories:
