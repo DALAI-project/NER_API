@@ -153,6 +153,8 @@ You can test the API for example using curl:
 
 `curl -d '{"text": "Helsingistä tuli Suomen suuriruhtinaskunnan pääkaupunki vuonna 1812."}' -H "Content-Type: application/json" -X POST http://127.0.0.1:8000/ner`
 
+NB! Windows users might encounter following error `Invoke-WebRequest : A parameter cannot be found that matches parameter name 'F'.`. This can be bypassed by running a command `Remove-item alias:curl`.
+
 The host and port should be the same ones that were defined when starting the API.
 
 ### Testing the API using Docker
