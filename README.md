@@ -1,6 +1,6 @@
 # Named Entity Recognition (NER) API
 
-<img src="https://github.com/DALAI-hanke/NER_API/assets/33789802/315a9e94-3eb1-4b77-be66-5cec321a45f6.jpg"  width="60%" height="60%">
+<img src="image.jpg"  width="60%" height="60%">
 
 
 API for performing named entity recognition from text input in Finnish. 
